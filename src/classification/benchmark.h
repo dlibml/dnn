@@ -1,6 +1,6 @@
 #include <dlib/dnn.h>
 
-template <typename net_type> auto measure(
+template <typename net_type> auto benchmark(
     const std::string& name,
     net_type& net,
     const size_t batch_size = 1,

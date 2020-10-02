@@ -11,62 +11,62 @@ try
 
     {
         resnet::train_18 net;
-        measure("resnet18 ", net);
+        benchmark("resnet18 ", net);
     }
 
     {
         resnet::train_34 net;
-        measure("resnet34 ", net);
+        benchmark("resnet34 ", net);
     }
 
     {
         resnet::train_50 net;
-        measure("resnet50 ", net);
+        benchmark("resnet50 ", net);
     }
 
     {
         resnet::train_101 net;
-        measure("resnet101", net);
+        benchmark("resnet101", net);
     }
 
     {
         resnet::train_152 net;
-        measure("resnet152", net);
+        benchmark("resnet152", net);
     }
 
     {
         darknet::train_19 net;
-        measure("darknet19", net);
+        benchmark("darknet19", net);
     }
 
     {
         darknet::train_53 net;
-        measure("darknet53", net);
+        benchmark("darknet53", net);
     }
 
     {
         vovnet::train_19_slim net;
-        measure("vovnet19s", net);
+        benchmark("vovnet19s", net);
     }
 
     {
         vovnet::train_19 net;
-        measure("vovnet19 ", net);
+        benchmark("vovnet19 ", net);
     }
 
     {
         vovnet::train_39 net;
-        measure("vovnet39 ", net);
+        benchmark("vovnet39 ", net);
     }
 
     {
         vovnet::train_57 net;
-        measure("vovnet57 ", net);
+        benchmark("vovnet57 ", net);
     }
 
     {
         vovnet::train_99 net;
-        measure("vovnet99 ", net);
+        benchmark("vovnet99 ", net);
     }
 
     return EXIT_SUCCESS;
