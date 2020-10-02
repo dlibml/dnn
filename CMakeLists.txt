@@ -63,4 +63,4 @@ endmacro()
 
 fetch_content(dlib master https://github.com/davisking/dlib.git)
 
-add_dlib_executable(main)
+add_dlib_executable(benchmark_classification)
