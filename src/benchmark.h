@@ -20,6 +20,7 @@ template <typename net_type> auto benchmark(
     {
         net.forward(x);
     }
+    // std::cout << net << '\n';
     for (int i = 0; i < iterations; ++i)
     {
         const auto t0 = std::chrono::steady_clock::now();

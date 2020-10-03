@@ -5,12 +5,19 @@ This repository contains the definitions for the following architectures, organi
 
 ## [Classification](./src/classification)
 
+### [VGGNet](./src/classification/vggnet.h)
+
+In particular, it contains VGGNet-{11,13,16,19} variants with batch normalization.
+
+Papers:
+-[Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556)
+
 ### [ResNet](./src/classification/resnet.h)
 
 In particular, it contains ResNet-{18,34,50,101,152}-B definitions, in contrast to dlib, which contains the A variants.
 
 Papers:
-- [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385).
+- [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
 
 ### [DarkNet](./src/classification/darknet.h)
 
