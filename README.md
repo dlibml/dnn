@@ -9,7 +9,7 @@ This repository contains the definitions for the following architectures, organi
 
 It contains the definition for the model that started it all.
 
-- Papers:
+Papers:
 - [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks)
 
 ### [VGGNet](./src/classification/vggnet.h)
