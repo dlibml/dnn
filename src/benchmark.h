@@ -29,7 +29,7 @@ template <typename net_type> auto benchmark(
         rs.add(std::chrono::duration_cast<fms>(t1 - t0).count());
     }
     std::cout << name << " inference: " << rs.mean() << " ms";
-    std::cout << " (" << 1.0 / rs.mean() * 1000.0 << " fps)";
+    std::cout << " (" << 1.0 / rs.mean() * 1000.0  * batch_size << " fps)";
     std::cout << " #params: " << dlib::count_parameters(net);
     std::ostringstream sout;
     dlib::serialize(net, sout);
