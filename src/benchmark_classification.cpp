@@ -1,4 +1,5 @@
 #include "benchmark.h"
+#include "classification/alexnet.h"
 #include "classification/darknet.h"
 #include "classification/resnet.h"
 #include "classification/vggnet.h"
@@ -6,6 +7,7 @@
 
 #include <dlib/cmd_line_parser.h>
 
+#define DNN_BENCH_ALEXNET 1
 #define DNN_BENCH_VGGNET 1
 #define DNN_BENCH_RESNET 1
 #define DNN_BENCH_DARKNET 1
@@ -38,7 +40,14 @@ try
     setenv("CUDA_LAUNCH_BLOCKING", cuda_blocking.c_str(), 1);
     std::cout << std::fixed << std::setprecision(3);
 
-#ifdef DNN_BENCH_VGGNET
+#if DNN_BENCH_ALEXNET
+    {
+        alexnet::train net;
+        benchmark("alexnet  ", net, batch_size, image_size, num_iters);
+    }
+#endif
+
+#if DNN_BENCH_VGGNET
     {
         vggnet::train_11 net;
         benchmark("vggnet11 ", net, batch_size, image_size, num_iters);

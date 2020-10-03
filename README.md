@@ -5,6 +5,13 @@ This repository contains the definitions for the following architectures, organi
 
 ## [Classification](./src/classification)
 
+### [AlexNet](./src/classification/alexnet.h)
+
+It contains the definition for the model that started it all.
+
+- Papers:
+- [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks)
+
 ### [VGGNet](./src/classification/vggnet.h)
 
 In particular, it contains VGGNet-{11,13,16,19} variants with batch normalization.
@@ -21,7 +28,7 @@ Papers:
 
 ### [DarkNet](./src/classification/darknet.h)
 
-In particular, it contains the backbones for DarkNet-19 (introduced in YOLOv1) and DarkNet-53 (YOLOv3)
+In particular, it contains the backbones for DarkNet-19 (introduced in YOLOv1) and DarkNet-53 (YOLOv3).
 
 Papers:
 - [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640)
