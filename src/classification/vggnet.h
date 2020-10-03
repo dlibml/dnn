@@ -34,7 +34,7 @@ namespace vggnet
 
         // the final fully connected layers
         template <typename SUBNET>
-        using final_fc = fc<1000, DO<relu<fc<4096, DO<relu<fc<4096, SUBNET>>>>>>>;
+        using final_fc = fc<1000, DO<ACT<fc<4096, DO<ACT<fc<4096, SUBNET>>>>>>>;
 
         template<typename INPUT> using backbone_11 = final_fc<backbone<2, 2, 1, 1, INPUT>>;
         template<typename INPUT> using backbone_13 = final_fc<backbone<2, 2, 2, 2, INPUT>>;
