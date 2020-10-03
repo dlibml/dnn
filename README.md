@@ -10,7 +10,7 @@ This repository contains the definitions for the following architectures, organi
 In particular, it contains VGGNet-{11,13,16,19} variants with batch normalization.
 
 Papers:
--[Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556)
+- [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556)
 
 ### [ResNet](./src/classification/resnet.h)
 
