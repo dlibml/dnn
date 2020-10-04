@@ -20,7 +20,6 @@ namespace vovnet
     template <template <typename> class ACT, template <typename> class BN>
     struct def
     {
-
         // The concatenate layer with custom number of outputs for OSA Module with 3 layers
         template <long num_filters, typename SUBNET>
         using concatenate3 = ACT<BN<con<num_filters, 1, 1, 1, 1,
@@ -124,20 +123,22 @@ namespace vovnet
                             stem<INPUT>>>>>>>>>>>;
     };
 
-    template <long num_filters, typename SUBNET> using classification_head =
-    loss_multiclass_log<fc<num_filters, avg_pool_everything<SUBNET>>>;
+    template <long num_filters, typename SUBNET>
+    using classification_head = loss_multiclass_log<fc<num_filters, avg_pool_everything<SUBNET>>>;
 
     using train_19_slim = classification_head<1000, def<relu, bn_con>::backbone_19_slim<input_rgb_image>>;
-    using train_19 = classification_head<1000, def<relu, bn_con>::backbone_19<input_rgb_image>>;
-    using train_27_slim = classification_head<1000, def<relu, bn_con>::backbone_27_slim<input_rgb_image>>;
-    using train_27 = classification_head<1000, def<relu, bn_con>::backbone_27<input_rgb_image>>;
-    using train_39 = classification_head<1000, def<relu, bn_con>::backbone_39<input_rgb_image>>;
-    using train_57 = classification_head<1000, def<relu, bn_con>::backbone_57<input_rgb_image>>;
-    using train_99 = classification_head<1000, def<relu, bn_con>::backbone_99<input_rgb_image>>;
     using infer_19_slim = classification_head<1000, def<relu, affine>::backbone_19_slim<input_rgb_image>>;
+    using train_19 = classification_head<1000, def<relu, bn_con>::backbone_19<input_rgb_image>>;
     using infer_19 = classification_head<1000, def<relu, affine>::backbone_19<input_rgb_image>>;
+    using train_27_slim = classification_head<1000, def<relu, bn_con>::backbone_27_slim<input_rgb_image>>;
+    using infer_27_slim = classification_head<1000, def<relu, affine>::backbone_27_slim<input_rgb_image>>;
+    using train_27 = classification_head<1000, def<relu, bn_con>::backbone_27<input_rgb_image>>;
+    using infer_27 = classification_head<1000, def<relu, affine>::backbone_27<input_rgb_image>>;
+    using train_39 = classification_head<1000, def<relu, bn_con>::backbone_39<input_rgb_image>>;
     using infer_39 = classification_head<1000, def<relu, affine>::backbone_39<input_rgb_image>>;
+    using train_57 = classification_head<1000, def<relu, bn_con>::backbone_57<input_rgb_image>>;
     using infer_57 = classification_head<1000, def<relu, affine>::backbone_57<input_rgb_image>>;
+    using train_99 = classification_head<1000, def<relu, bn_con>::backbone_99<input_rgb_image>>;
     using infer_99 = classification_head<1000, def<relu, affine>::backbone_99<input_rgb_image>>;
     // clang-format on
 }  // namespace vovnet
