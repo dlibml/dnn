@@ -119,6 +119,14 @@ try
         benchmark("vovnet19 ", net, batch_size, image_size, num_iters);
     }
     {
+        vovnet::train_27_slim net;
+        benchmark("vovnet27s", net, batch_size, image_size, num_iters);
+    }
+    {
+        vovnet::train_27 net;
+        benchmark("vovnet27 ", net, batch_size, image_size, num_iters);
+    }
+    {
         vovnet::train_39 net;
         benchmark("vovnet39 ", net, batch_size, image_size, num_iters);
     }

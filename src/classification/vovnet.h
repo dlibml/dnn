@@ -89,6 +89,20 @@ namespace vovnet
                             stem<INPUT>>>>>>>>;
 
         template <typename INPUT>
+        using backbone_27_slim = osa_module3<512, 112,
+                                 maxpool<osa_module5<384, 96,
+                                 maxpool<osa_module5<256, 80,
+                                 maxpool<osa_module5<112, 64,
+                                 stem<INPUT>>>>>>>>;
+
+        template <typename INPUT>
+        using backbone_27 = osa_module3<1024, 224,
+                            maxpool<osa_module5<768, 192,
+                            maxpool<osa_module5<512, 160,
+                            maxpool<osa_module5<256, 128,
+                            stem<INPUT>>>>>>>>;
+
+        template <typename INPUT>
         using backbone_39 = osa_module5_id_1024<osa_module5<1024, 224,
                             maxpool<osa_module5_id_768<osa_module5<768, 192,
                             maxpool<osa_module5<512, 160,
@@ -115,6 +129,8 @@ namespace vovnet
 
     using train_19_slim = classification_head<1000, def<relu, bn_con>::backbone_19_slim<input_rgb_image>>;
     using train_19 = classification_head<1000, def<relu, bn_con>::backbone_19<input_rgb_image>>;
+    using train_27_slim = classification_head<1000, def<relu, bn_con>::backbone_27_slim<input_rgb_image>>;
+    using train_27 = classification_head<1000, def<relu, bn_con>::backbone_27<input_rgb_image>>;
     using train_39 = classification_head<1000, def<relu, bn_con>::backbone_39<input_rgb_image>>;
     using train_57 = classification_head<1000, def<relu, bn_con>::backbone_57<input_rgb_image>>;
     using train_99 = classification_head<1000, def<relu, bn_con>::backbone_99<input_rgb_image>>;
