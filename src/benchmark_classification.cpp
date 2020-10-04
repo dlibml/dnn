@@ -1,6 +1,7 @@
 #include "benchmark.h"
 #include "classification/alexnet.h"
 #include "classification/darknet.h"
+#include "classification/googlenet.h"
 #include "classification/resnet.h"
 #include "classification/vggnet.h"
 #include "classification/vovnet.h"
@@ -9,6 +10,7 @@
 
 #define DNN_BENCH_ALEXNET 1
 #define DNN_BENCH_VGGNET 1
+#define DNN_BENCH_GOOGLENET 1
 #define DNN_BENCH_RESNET 1
 #define DNN_BENCH_DARKNET 1
 #define DNN_BENCH_VOVNET 1
@@ -63,6 +65,13 @@ try
     {
         vggnet::train_19 net;
         benchmark("vggnet19 ", net, batch_size, image_size, num_iters);
+    }
+#endif
+
+#if DNN_BENCH_GOOGLENET
+    {
+        googlenet::train net;
+        benchmark("googlenet", net, batch_size, image_size, num_iters);
     }
 #endif
 

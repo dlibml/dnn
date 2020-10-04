@@ -12,6 +12,13 @@ It contains the definition for the model that started it all.
 Papers:
 - [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks)
 
+### [GoogLeNet](./src/classification/googlenet.h)
+
+It contains the definition of the GoogLeNet, also known as InceptionV1.
+
+Papers:
+- [Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
+
 ### [VGGNet](./src/classification/vggnet.h)
 
 In particular, it contains VGGNet-{11,13,16,19} variants with batch normalization.
