@@ -33,6 +33,13 @@ In particular, it contains ResNet-{18,34,50,101,152}-B definitions, in contrast 
 Papers:
 - [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
 
+### [DenseNet](./src/classification/densenet.h)
+
+In particular, it contains DenseNet-{121,169,201,264} definitions.
+
+Papers:
+-[Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
+
 ### [DarkNet](./src/classification/darknet.h)
 
 In particular, it contains the backbones for DarkNet-19 (introduced in YOLOv1) and DarkNet-53 (YOLOv3).

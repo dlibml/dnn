@@ -22,6 +22,9 @@ if(${FORCE_COLORED_OUTPUT})
     endif()
 endif()
 
+# DenseNets have a LOT of layers...
+add_compile_options(-ftemplate-depth=2000)
+
 # Enable ccache if it exists
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
