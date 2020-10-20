@@ -14,7 +14,8 @@ namespace densenet
         template <long num_filters, long ks, int s, typename SUBNET>
         using conp = add_layer<con_<num_filters, ks, ks, s, s, ks/2, ks/2>, SUBNET>;
 
-        template <typename INPUT> using stem = add_layer<max_pool_<3, 3, 2, 2, 1, 1>, ACT<BN<conp<64, 7, 2, INPUT>>>>;
+        template <typename INPUT>
+        using stem = add_layer<max_pool_<3, 3, 2, 2, 1, 1>, ACT<BN<conp<64, 7, 2, INPUT>>>>;
 
         template <long num_filters, typename SUBNET>
         using transition = avg_pool<2, 2, 2, 2, con<num_filters, 1, 1, 1, 1, ACT<BN<SUBNET>>>>;
