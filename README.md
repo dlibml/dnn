@@ -38,7 +38,7 @@ Papers:
 In particular, it contains DenseNet-{121,169,201,264} definitions.
 
 Papers:
--[Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
+- [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
 
 ### [DarkNet](./src/classification/darknet.h)
 
