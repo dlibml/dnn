@@ -3,6 +3,16 @@ Deep Neural Network Architectures
 
 This repository contains the definitions for the following architectures, organized by task.
 
+## Contents
+- [Classification](#classification)
+  - [AlexNet](#alexnet)
+  - [VGGNet](#vggnet)
+  - [GoogLeNet](#googlenet)
+  - [ResNet](#resnet)
+  - [DenseNet](#densenet)
+  - [DarkNet](#darknet)
+  - [VoVNet](#vovnet)
+
 ## [Classification](./src/classification)
 
 ### [AlexNet](./src/classification/alexnet.h)
