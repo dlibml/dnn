@@ -1,6 +1,7 @@
 #include "benchmark.h"
 #include "classification/alexnet.h"
 #include "classification/darknet.h"
+#include "classification/densenet.h"
 #include "classification/googlenet.h"
 #include "classification/resnet.h"
 #include "classification/vggnet.h"
@@ -13,6 +14,7 @@
 #define DNN_BENCH_GOOGLENET 1
 #define DNN_BENCH_RESNET 1
 #define DNN_BENCH_DARKNET 1
+#define DNN_BENCH_DENSENET 1
 #define DNN_BENCH_VOVNET 1
 
 int main(const int argc, const char** argv)
@@ -106,6 +108,25 @@ try
     {
         darknet::train_53 net;
         benchmark("darknet53", net, batch_size, image_size, num_iters);
+    }
+#endif
+
+#if DNN_BENCH_DENSENET
+    {
+        densenet::train_121 net;
+        benchmark("densenet121", net, batch_size, image_size, num_iters);
+    }
+    {
+        densenet::train_169 net;
+        benchmark("densenet169", net, batch_size, image_size, num_iters);
+    }
+    {
+        densenet::train_201 net;
+        benchmark("densenet201", net, batch_size, image_size, num_iters);
+    }
+    {
+        densenet::train_264 net;
+        benchmark("densenet264", net, batch_size, image_size, num_iters);
     }
 #endif
 
