@@ -46,117 +46,165 @@ try
 
 #if DNN_BENCH_ALEXNET
     {
-        alexnet::train net;
+        alexnet::train tnet;
+        dlib::disable_duplicative_bias(tnet);
+        alexnet::infer net(tnet);
         benchmark("alexnet  ", net, batch_size, image_size, num_iters);
     }
 #endif
 
 #if DNN_BENCH_VGGNET
     {
-        vggnet::train_11 net;
+        vggnet::train_11 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vggnet::infer_11 net(tnet);
         benchmark("vggnet11 ", net, batch_size, image_size, num_iters);
     }
     {
-        vggnet::train_13 net;
+        vggnet::train_13 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vggnet::infer_13 net(tnet);
         benchmark("vggnet13 ", net, batch_size, image_size, num_iters);
     }
     {
-        vggnet::train_16 net;
+        vggnet::train_16 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vggnet::infer_16 net(tnet);
         benchmark("vggnet16 ", net, batch_size, image_size, num_iters);
     }
     {
-        vggnet::train_19 net;
+        vggnet::train_19 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vggnet::infer_19 net(tnet);
         benchmark("vggnet19 ", net, batch_size, image_size, num_iters);
     }
 #endif
 
 #if DNN_BENCH_GOOGLENET
     {
-        googlenet::train net;
+        googlenet::train tnet;
+        dlib::disable_duplicative_bias(tnet);
+        googlenet::infer net(tnet);
         benchmark("googlenet", net, batch_size, image_size, num_iters);
     }
 #endif
 
 #if DNN_BENCH_RESNET
     {
-        resnet::train_18 net;
+        resnet::train_18 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        resnet::infer_18 net(tnet);
         benchmark("resnet18 ", net, batch_size, image_size, num_iters);
     }
     {
-        resnet::train_34 net;
+        resnet::train_34 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        resnet::infer_34 net(tnet);
         benchmark("resnet34 ", net, batch_size, image_size, num_iters);
     }
     {
-        resnet::train_50 net;
+        resnet::train_50 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        resnet::infer_50 net(tnet);
         benchmark("resnet50 ", net, batch_size, image_size, num_iters);
     }
     {
-        resnet::train_101 net;
+        resnet::train_101 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        resnet::infer_101 net(tnet);
         benchmark("resnet101", net, batch_size, image_size, num_iters);
     }
     {
-        resnet::train_152 net;
+        resnet::train_152 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        resnet::infer_152 net(tnet);
         benchmark("resnet152", net, batch_size, image_size, num_iters);
     }
 #endif
 
 #if DNN_BENCH_DARKNET
     {
-        darknet::train_19 net;
+        darknet::train_19 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        darknet::infer_19 net(tnet);
         benchmark("darknet19", net, batch_size, image_size, num_iters);
     }
     {
-        darknet::train_53 net;
+        darknet::train_53 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        darknet::infer_53 net(tnet);
         benchmark("darknet53", net, batch_size, image_size, num_iters);
     }
 #endif
 
 #if DNN_BENCH_DENSENET
     {
-        densenet::train_121 net;
+        densenet::train_121 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        densenet::infer_121 net(tnet);
         benchmark("densenet121", net, batch_size, image_size, num_iters);
     }
     {
-        densenet::train_169 net;
+        densenet::train_169 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        densenet::infer_169 net(tnet);
         benchmark("densenet169", net, batch_size, image_size, num_iters);
     }
     {
-        densenet::train_201 net;
+        densenet::train_201 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        densenet::infer_201 net(tnet);
         benchmark("densenet201", net, batch_size, image_size, num_iters);
     }
     {
-        densenet::train_264 net;
+        densenet::train_264 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        densenet::infer_264 net(tnet);
         benchmark("densenet264", net, batch_size, image_size, num_iters);
     }
 #endif
 
 #if DNN_BENCH_VOVNET
     {
-        vovnet::train_19_slim net;
+        vovnet::train_19_slim tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vovnet::infer_19_slim net(tnet);
         benchmark("vovnet19s", net, batch_size, image_size, num_iters);
     }
     {
-        vovnet::train_19 net;
+        vovnet::train_19 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vovnet::infer_19 net(tnet);
         benchmark("vovnet19 ", net, batch_size, image_size, num_iters);
     }
     {
-        vovnet::train_27_slim net;
+        vovnet::train_27_slim tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vovnet::infer_27_slim net(tnet);
         benchmark("vovnet27s", net, batch_size, image_size, num_iters);
     }
     {
-        vovnet::train_27 net;
+        vovnet::train_27 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vovnet::infer_27 net(tnet);
         benchmark("vovnet27 ", net, batch_size, image_size, num_iters);
     }
     {
-        vovnet::train_39 net;
+        vovnet::train_39 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vovnet::infer_39 net(tnet);
         benchmark("vovnet39 ", net, batch_size, image_size, num_iters);
     }
     {
-        vovnet::train_57 net;
+        vovnet::train_57 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vovnet::infer_57 net(tnet);
         benchmark("vovnet57 ", net, batch_size, image_size, num_iters);
     }
     {
-        vovnet::train_99 net;
+        vovnet::train_99 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        vovnet::infer_99 net(tnet);
         benchmark("vovnet99 ", net, batch_size, image_size, num_iters);
     }
 #endif

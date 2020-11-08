@@ -8,7 +8,6 @@ template <typename net_type> auto benchmark(
     const int iterations = 100)
 {
     using fms = std::chrono::duration<float, std::milli>;
-    dlib::disable_duplicative_bias(net);
     dlib::resizable_tensor x;
     dlib::matrix<dlib::rgb_pixel> image(image_size, image_size);
     dlib::assign_all_pixels(image, dlib::rgb_pixel(0, 0, 0));
