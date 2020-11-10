@@ -6,6 +6,7 @@ This repository contains the definitions for the following architectures, organi
 ## Contents
 - [Classification](#classification)
   - [AlexNet](#alexnet)
+  - [SqueezeNet](#squeezenet)
   - [VGGNet](#vggnet)
   - [GoogLeNet](#googlenet)
   - [ResNet](#resnet)
