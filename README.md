@@ -22,6 +22,13 @@ It contains the definition for the model that started it all.
 Papers:
 - [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks)
 
+### [SqueezeNet](./src/classification/squeezenet.h)
+
+In particular, it contains SqueezeNet-{v1.0,v1.1}.
+
+Papers:
+- [SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5MB model size](https://arxiv.org/abs/1602.07360)
+
 ### [VGGNet](./src/classification/vggnet.h)
 
 In particular, it contains VGGNet-{11,13,16,19} variants with batch normalization.

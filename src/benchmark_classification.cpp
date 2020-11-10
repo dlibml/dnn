@@ -4,6 +4,7 @@
 #include "classification/densenet.h"
 #include "classification/googlenet.h"
 #include "classification/resnet.h"
+#include "classification/squeezenet.h"
 #include "classification/vggnet.h"
 #include "classification/vovnet.h"
 
@@ -16,6 +17,7 @@
 #define DNN_BENCH_DARKNET 1
 #define DNN_BENCH_DENSENET 1
 #define DNN_BENCH_VOVNET 1
+#define DNN_BENCH_SQUEEZENET 1
 
 int main(const int argc, const char** argv)
 try
@@ -50,6 +52,21 @@ try
         dlib::disable_duplicative_bias(tnet);
         alexnet::infer net(tnet);
         benchmark("alexnet  ", net, batch_size, image_size, num_iters);
+    }
+#endif
+
+#if DNN_BENCH_SQUEEZENET
+    {
+        squeezenet::train_v1_0 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        squeezenet::infer_v1_0 net(tnet);
+        benchmark("sqznet1.0", net, batch_size, image_size, num_iters);
+    }
+    {
+        squeezenet::train_v1_1 tnet;
+        dlib::disable_duplicative_bias(tnet);
+        squeezenet::infer_v1_1 net(tnet);
+        benchmark("sqznet1.1", net, batch_size, image_size, num_iters);
     }
 #endif
 
