@@ -60,11 +60,13 @@ Papers:
 
 ### [DarkNet](./src/classification/darknet.h)
 
-In particular, it contains the backbones for DarkNet-19 (introduced in YOLOv1) and DarkNet-53 (YOLOv3).
+In particular, it contains the backbones for DarkNet-19 (introduced in YOLOv1), DarkNet-53 (YOLOv3) and CSPDarknet-53 (YOLOv4).
 
 Papers:
 - [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640)
 - [YOLOv3: An Incremental Improvement](https://arxiv.org/abs/1804.02767)
+- [CSPNet: A New Backbone that can Enhance Learning Capability of CNN](https://arxiv.org/abs/1911.11929)
+- [YOLOv4: Optimal Speed and Accuracy of Object Detection](https://arxiv.org/abs/2004.10934)
 
 ### [VoVNet](./src/classification/vovnet.h)
 In particular, it contains implementations for VoVNetv2-{19slim,19,27slim,27,39,57,99}, which are very similar to VoVNetv1 (V2 have identiy mapping and effective Squeeze and Excitation on top of V1).

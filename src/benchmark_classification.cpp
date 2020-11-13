@@ -152,6 +152,12 @@ try
         darknet::infer_53 net(tnet);
         benchmark("darknet53", net, batch_size, image_size, num_iters);
     }
+    {
+        darknet::train_53csp tnet;
+        dlib::disable_duplicative_bias(tnet);
+        darknet::infer_53csp net(tnet);
+        benchmark("darknet53csp", net, batch_size, image_size, num_iters);
+    }
 #endif
 
 #if DNN_BENCH_DENSENET
