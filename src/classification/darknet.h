@@ -76,14 +76,13 @@ namespace darknet
                            INPUT>>>>>>>>>>>;
 
         template <typename INPUT>
-        using backbone53csp = conblock<1024, 1, 1,
-                              cspblock<512, 2, 4, resv4_512,
+        using backbone53csp = cspblock<512, 2, 4, resv4_512,
                               cspblock<256, 2, 8, resv4_256,
                               cspblock<128, 2, 8, resv4_128,
                               cspblock<64, 2, 2, resv4_64,
                               cspblock<64, 1, 1, resv3_64,
                               conblock<32, 3, 1,
-                              INPUT>>>>>>>;
+                              INPUT>>>>>>;
     };
 
     template <typename SUBNET>
