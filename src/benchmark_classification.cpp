@@ -207,6 +207,13 @@ try
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("densenet264", net, batch_size, image_size, num_iters);
     }
+    {
+        densenet::train_161 tnet;
+        dlib::disable_duplicative_biases(tnet);
+        densenet::infer_161 net(tnet);
+        net.subnet().layer_details().set_num_outputs(num_outputs);
+        benchmark("densenet161", net, batch_size, image_size, num_iters);
+    }
 #endif
 
 #if DNN_BENCH_VOVNET

@@ -53,7 +53,7 @@ Papers:
 
 ### [DenseNet](./src/classification/densenet.h)
 
-In particular, it contains DenseNet-{121,169,201,264} definitions.
+In particular, it contains DenseNet-{121,169,201,264,161} definitions.
 
 Papers:
 - [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
