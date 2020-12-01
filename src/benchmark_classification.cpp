@@ -181,35 +181,35 @@ try
 #if DNN_BENCH_DENSENET
     {
         densenet::train_121 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         densenet::infer_121 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("densenet121", net, batch_size, image_size, num_iters);
     }
     {
         densenet::train_169 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         densenet::infer_169 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("densenet169", net, batch_size, image_size, num_iters);
     }
     {
         densenet::train_201 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         densenet::infer_201 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("densenet201", net, batch_size, image_size, num_iters);
     }
     {
         densenet::train_264 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         densenet::infer_264 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("densenet264", net, batch_size, image_size, num_iters);
     }
     {
         densenet::train_161 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         densenet::infer_161 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("densenet161", net, batch_size, image_size, num_iters);
