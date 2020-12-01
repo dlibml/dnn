@@ -7,36 +7,36 @@ namespace densenet
 {
     // clang-format off
     using namespace dlib;
-    // ACT can be any activation layer and BN must be bn_con or affine layer
-    template <template <typename> class ACT, template <typename> class BN, long growth_rate>
+    // ACT can be any activation layer, BN must be bn_con or affine layer and k is the growth rate
+    template <template <typename> class ACT, template <typename> class BN, long k>
     struct def
     {
         template <long num_filters, long ks, int s, typename SUBNET>
         using conp = add_layer<con_<num_filters, ks, ks, s, s, ks/2, ks/2>, SUBNET>;
 
         template <typename INPUT>
-        using stem = add_layer<max_pool_<3, 3, 2, 2, 1, 1>, ACT<BN<conp<2 * growth_rate, 7, 2, INPUT>>>>;
+        using stem = add_layer<max_pool_<3, 3, 2, 2, 1, 1>, ACT<BN<conp<2 * k, 7, 2, INPUT>>>>;
 
         template <long num_filters, typename SUBNET>
         using transition = avg_pool<2, 2, 2, 2, con<num_filters, 1, 1, 1, 1, ACT<BN<SUBNET>>>>;
 
         template <long num_filters, typename SUBNET>
         using dense_layer = concat2<tag1, tag2,
-                            tag2<conp<growth_rate, 3, 1,
-                            ACT<BN<conp<4 * growth_rate, 1, 1,
+                            tag2<conp<k, 3, 1,
+                            ACT<BN<conp<4 * k, 1, 1,
                             ACT<BN<tag1<SUBNET>>>>>>>>>;
 
-        template <typename SUBNET> using dense_layer_128 = dense_layer<128, SUBNET>;
-        template <typename SUBNET> using dense_layer_256 = dense_layer<256, SUBNET>;
-        template <typename SUBNET> using dense_layer_512 = dense_layer<512, SUBNET>;
-        template <typename SUBNET> using dense_layer_1024 = dense_layer<1024, SUBNET>;
+        template <typename SUBNET> using dense_layer_4k = dense_layer<4 * k  , SUBNET>;
+        template <typename SUBNET> using dense_layer_8k = dense_layer<8 * k  , SUBNET>;
+        template <typename SUBNET> using dense_layer_16k = dense_layer<16 * k, SUBNET>;
+        template <typename SUBNET> using dense_layer_32k = dense_layer<32 * k, SUBNET>;
 
-        template <size_t nb_1024, size_t nb_512, size_t nb_256, size_t nb_128, typename INPUT>
+        template <size_t nb_32k, size_t nb_16k, size_t nb_8k, size_t nb_4k, typename INPUT>
         using backbone = ACT<BN<
-                         repeat<nb_1024, dense_layer_1024, transition<512,
-                         repeat<nb_512, dense_layer_512, transition<256,
-                         repeat<nb_256, dense_layer_256, transition<128,
-                         repeat<nb_128, dense_layer_128, stem<INPUT>>>>>>>>>>;
+                         repeat<nb_32k, dense_layer_32k, transition<k * (2 + nb_4k + 2 * nb_8k + 4 * nb_16k) / 8,
+                         repeat<nb_16k, dense_layer_16k, transition<k * (2 + nb_4k + 2 * nb_8k) / 4,
+                         repeat<nb_8k, dense_layer_8k, transition<k * (2 + nb_4k) / 2,
+                         repeat<nb_4k, dense_layer_4k, stem<INPUT>>>>>>>>>>;
     };
 
     template <typename SUBNET>
