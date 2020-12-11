@@ -219,49 +219,49 @@ try
 #if DNN_BENCH_VOVNET
     {
         vovnet::train_19_slim tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         vovnet::infer_19_slim net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("vovnet19s", net, batch_size, image_size, num_iters);
     }
     {
         vovnet::train_19 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         vovnet::infer_19 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("vovnet19 ", net, batch_size, image_size, num_iters);
     }
     {
         vovnet::train_27_slim tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         vovnet::infer_27_slim net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("vovnet27s", net, batch_size, image_size, num_iters);
     }
     {
         vovnet::train_27 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         vovnet::infer_27 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("vovnet27 ", net, batch_size, image_size, num_iters);
     }
     {
         vovnet::train_39 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         vovnet::infer_39 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("vovnet39 ", net, batch_size, image_size, num_iters);
     }
     {
         vovnet::train_57 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         vovnet::infer_57 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("vovnet57 ", net, batch_size, image_size, num_iters);
     }
     {
         vovnet::train_99 tnet;
-        dlib::disable_duplicative_biases(tnet);
+        dlib::visit_layers(tnet, visitor_con_disable_bias());
         vovnet::infer_99 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("vovnet99 ", net, batch_size, image_size, num_iters);
