@@ -13,6 +13,7 @@ This repository contains the definitions for the following architectures, organi
   - [DenseNet](#densenet)
   - [DarkNet](#darknet)
   - [VoVNet](#vovnet)
+  - [RepVGG](#repvgg)
 
 ## [Classification](./src/classification)
 
@@ -69,8 +70,19 @@ Papers:
 - [YOLOv4: Optimal Speed and Accuracy of Object Detection](https://arxiv.org/abs/2004.10934)
 
 ### [VoVNet](./src/classification/vovnet.h)
+
 In particular, it contains implementations for VoVNetv2-{19slim,19,27slim,27,39,57,99}, which are very similar to VoVNetv1 (V2 have identiy mapping and effective Squeeze and Excitation on top of V1).
 
 Papers:
 - [An Energy and GPU-Computation Efficient Backbone Network for Real-Time Object Detection](https://arxiv.org/abs/1904.09730)
 - [CenterMask: Real-Time Anchor-Free Instance Segmentation](https://arxiv.org/abs/1911.06667)
+
+### [RepVGG](./src/classification/repvgg.h)
+
+In particular, it contains implementations for RepVGG-{A0,A1,A2,B0,B1,B2,B3}.
+
+Note that, at the moment, there is no way to convert from a trained RepVGG model into its inference counterpart.
+I will investigate how to do that soon.
+
+Papers:
+- [RepVGG: Making VGG-style ConvNets Great Again](https://arxiv.org/abs/2101.03697)

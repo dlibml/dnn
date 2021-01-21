@@ -7,6 +7,7 @@
 #include "classification/squeezenet.h"
 #include "classification/vggnet.h"
 #include "classification/vovnet.h"
+#include "classification/repvgg.h"
 
 #include <dlib/cmd_line_parser.h>
 
@@ -18,6 +19,7 @@
 #define DNN_BENCH_DENSENET 1
 #define DNN_BENCH_VOVNET 1
 #define DNN_BENCH_SQUEEZENET 1
+# define DNN_BENCH_REPVGG 1
 
 int main(const int argc, const char** argv)
 try
@@ -265,6 +267,44 @@ try
         vovnet::infer_99 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
         benchmark("vovnet99 ", net, batch_size, image_size, num_iters);
+    }
+#endif
+
+#if DNN_BENCH_REPVGG
+    {
+        repvgg::infer_a0 net;
+        net.subnet().layer_details().set_num_outputs(num_outputs);
+        benchmark("repvgg_a0 ", net, batch_size, image_size, num_iters);
+    }
+    {
+        repvgg::infer_a1 net;
+        net.subnet().layer_details().set_num_outputs(num_outputs);
+        benchmark("repvgg_a1 ", net, batch_size, image_size, num_iters);
+    }
+    {
+        repvgg::infer_a2 net;
+        net.subnet().layer_details().set_num_outputs(num_outputs);
+        benchmark("repvgg_a2 ", net, batch_size, image_size, num_iters);
+    }
+    {
+        repvgg::infer_b0 net;
+        net.subnet().layer_details().set_num_outputs(num_outputs);
+        benchmark("repvgg_b0 ", net, batch_size, image_size, num_iters);
+    }
+    {
+        repvgg::infer_b1 net;
+        net.subnet().layer_details().set_num_outputs(num_outputs);
+        benchmark("repvgg_b1 ", net, batch_size, image_size, num_iters);
+    }
+    {
+        repvgg::infer_b2 net;
+        net.subnet().layer_details().set_num_outputs(num_outputs);
+        benchmark("repvgg_b2 ", net, batch_size, image_size, num_iters);
+    }
+    {
+        repvgg::infer_b3 net;
+        net.subnet().layer_details().set_num_outputs(num_outputs);
+        benchmark("repvgg_b3 ", net, batch_size, image_size, num_iters);
     }
 #endif
 
