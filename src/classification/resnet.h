@@ -17,22 +17,22 @@ namespace resnet
         // the resnet basic block, factor must be 1, used only for interface
         template <long num_filters, long factor, int stride, typename SUBNET>
         using basicblock = BN<conp<num_filters * factor, 3, 1,
-                           ACT<BN<conp<num_filters, 3, stride, SUBNET>>>>>;
+                       ACT<BN<conp<num_filters, 3, stride, SUBNET>>>>>;
 
         // the resnet bottleneck block, factor must be 4, used only for interface
         template <long num_filters, long factor, int stride, typename SUBNET>
         using bottleneck = BN<conp<num_filters * factor, 1, 1,
-                           ACT<BN<conp<num_filters, 3, stride,
-                           ACT<BN<conp<num_filters, 1, 1, SUBNET>>>>>>>>;
+                       ACT<BN<conp<num_filters, 3, stride,
+                       ACT<BN<conp<num_filters, 1, 1, SUBNET>>>>>>>>;
 
         // the resnet residual, where BLOCK is either basicblock or bottleneck
         template <template <long, long, int, typename> class BLOCK, long num_filters, long factor, typename SUBNET>
-        using residual = add_prev1<BLOCK<num_filters, factor, 1, tag1<SUBNET>>>;
+        using residual = ACT<add_prev1<BLOCK<num_filters, factor, 1, tag1<SUBNET>>>>;
 
         // a resnet residual that does subsampling on both paths
         template <template <long, long, int, typename> class BLOCK, long num_filters, long factor, typename SUBNET>
-        using residual_down = add_prev2<BN<conp<num_filters * factor, 1, 2,
-                              skip1<tag2<BLOCK<num_filters, factor, 2, tag1<SUBNET>>>>>>>;
+        using residual_down = ACT<add_prev2<BN<conp<num_filters * factor, 1, 2,
+                              skip1<tag2<BLOCK<num_filters, factor, 2, tag1<SUBNET>>>>>>>>;
 
         // residual block that takes either a residual or a residual_down
         template<
@@ -41,7 +41,7 @@ namespace resnet
             long num_filters,
             long factor,
             typename SUBNET>
-        using residual_block = ACT<RESIDUAL<BLOCK, num_filters, factor, SUBNET>>;
+        using residual_block = RESIDUAL<BLOCK, num_filters, factor, SUBNET>;
 
         template <long num_filters, typename SUBNET>
         using resbasicblock_down = residual_block<residual_down, basicblock, num_filters, 1, SUBNET>;
@@ -59,7 +59,7 @@ namespace resnet
         template <typename SUBNET> using resbottleneck_64  = residual_block<residual, bottleneck,  64, 4, SUBNET>;
 
         // common processing for standard resnet inputs
-        template <typename INPUT> using stem = max_pool<3, 3, 2, 2, ACT<BN<conp<64, 7, 2, INPUT>>>>;
+        template <typename INPUT> using stem = add_layer<max_pool_<3, 3, 2, 2, 1, 1>, ACT<BN<conp<64, 7, 2, INPUT>>>>;
 
         // the resnet backbone with basicblocks
         template <long nb_512, long nb_256, long nb_128, long nb_64, typename INPUT>
