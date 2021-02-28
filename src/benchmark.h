@@ -13,6 +13,22 @@ class visitor_con_disable_bias
     }
 };
 
+class visitor_count_convolutions
+{
+    public:
+    visitor_count_convolutions(size_t& num_convolutions) : num_convolutions(num_convolutions) {}
+    // ignore other layers
+    template <typename T> void operator()(size_t, T&) {}
+    template <long nf, long nr, long nc, int sy, int sx, int py, int px, typename SUBNET>
+    void operator()(size_t, dlib::add_layer<dlib::con_<nf, nr, nc, sy, sx, py, px>, SUBNET>&)
+    {
+        ++num_convolutions;
+    }
+
+    private:
+    size_t& num_convolutions;
+};
+
 template <typename net_type> auto benchmark(
     const std::string& name,
     net_type& net,
@@ -23,7 +39,7 @@ template <typename net_type> auto benchmark(
     using fms = std::chrono::duration<float, std::milli>;
     dlib::resizable_tensor x;
     dlib::matrix<dlib::rgb_pixel> image(image_size, image_size);
-    dlib::assign_all_pixels(image, dlib::rgb_pixel(0, 0, 0));
+    assign_all_pixels(image, dlib::rgb_pixel(0, 0, 0));
     std::vector<dlib::matrix<dlib::rgb_pixel>> batch(batch_size, image);
     dlib::running_stats<double> rs;
     net.to_tensor(batch.begin(), batch.end(), x);
@@ -42,9 +58,12 @@ template <typename net_type> auto benchmark(
     }
     std::cout << name << " inference: " << rs.mean() << " ms";
     std::cout << " (" << 1.0 / rs.mean() * 1000.0 * batch_size << " fps)";
-    std::cout << " #params: " << dlib::count_parameters(net);
+    std::cout << " #params: " << count_parameters(net);
     std::ostringstream sout;
-    dlib::serialize(net, sout);
-    std::cout << " (memory usage: " << sout.str().size() / 1024.0 / 1024.0 << " MiB)\n";
+    serialize(net, sout);
+    std::cout << " (memory usage: " << sout.str().size() / 1024.0 / 1024.0 << " MiB)";
+    size_t num_convolutions = 0;
+    dlib::visit_layers(net, visitor_count_convolutions(num_convolutions));
+    std::cout << " #num convolutions: " << num_convolutions << '\n';
     std::cin.get();
 }
