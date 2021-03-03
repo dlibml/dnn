@@ -21,7 +21,7 @@ namespace repvgg
 
         // train block
         template <long num_filters, typename SUBNET>
-        using tblock = ACT<add_prev1<bcon<num_filters, 1, 1, skip1<add_prev1<bcon<num_filters, 3, 1, tag1<SUBNET>>>>>>>;
+        using tblock = ACT<add_prev2<bcon<num_filters, 1, 1, skip1<tag2<add_prev1<bcon<num_filters, 3, 1, tag1<SUBNET>>>>>>>>;
 
         // transition block for training
         template <long num_filters, typename SUBNET>
