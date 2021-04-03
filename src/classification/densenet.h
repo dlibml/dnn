@@ -20,23 +20,18 @@ namespace densenet
         template <long num_filters, typename SUBNET>
         using transition = avg_pool<2, 2, 2, 2, con<num_filters, 1, 1, 1, 1, ACT<BN<SUBNET>>>>;
 
-        template <long num_filters, typename SUBNET>
+        template <typename SUBNET>
         using dense_layer = concat2<tag1, tag2,
                             tag2<conp<k, 3, 1,
                             ACT<BN<conp<4 * k, 1, 1,
                             ACT<BN<tag1<SUBNET>>>>>>>>>;
 
-        template <typename SUBNET> using dense_layer_4k = dense_layer<4 * k  , SUBNET>;
-        template <typename SUBNET> using dense_layer_8k = dense_layer<8 * k  , SUBNET>;
-        template <typename SUBNET> using dense_layer_16k = dense_layer<16 * k, SUBNET>;
-        template <typename SUBNET> using dense_layer_32k = dense_layer<32 * k, SUBNET>;
-
         template <size_t nb_32k, size_t nb_16k, size_t nb_8k, size_t nb_4k, typename INPUT>
         using backbone = ACT<BN<
-                         repeat<nb_32k, dense_layer_32k, transition<k * (2 + nb_4k + 2 * nb_8k + 4 * nb_16k) / 8,
-                         repeat<nb_16k, dense_layer_16k, transition<k * (2 + nb_4k + 2 * nb_8k) / 4,
-                         repeat<nb_8k, dense_layer_8k, transition<k * (2 + nb_4k) / 2,
-                         repeat<nb_4k, dense_layer_4k, stem<INPUT>>>>>>>>>>;
+                         repeat<nb_32k, dense_layer, transition<k * (2 + nb_4k + 2 * nb_8k + 4 * nb_16k) / 8,
+                         repeat<nb_16k, dense_layer, transition<k * (2 + nb_4k + 2 * nb_8k) / 4,
+                         repeat<nb_8k, dense_layer, transition<k * (2 + nb_4k) / 2,
+                         repeat<nb_4k, dense_layer, stem<INPUT>>>>>>>>>>;
     };
 
     template <typename SUBNET>
