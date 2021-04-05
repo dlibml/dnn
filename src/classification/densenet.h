@@ -26,12 +26,12 @@ namespace densenet
                             ACT<BN<conp<4 * k, 1, 1,
                             ACT<BN<tag1<SUBNET>>>>>>>>>;
 
-        template <size_t nb_32k, size_t nb_16k, size_t nb_8k, size_t nb_4k, typename INPUT>
+        template <size_t n4, size_t n3, size_t n2, size_t n1, typename INPUT>
         using backbone = ACT<BN<
-                         repeat<nb_32k, dense_layer, transition<k * (2 + nb_4k + 2 * nb_8k + 4 * nb_16k) / 8,
-                         repeat<nb_16k, dense_layer, transition<k * (2 + nb_4k + 2 * nb_8k) / 4,
-                         repeat<nb_8k, dense_layer, transition<k * (2 + nb_4k) / 2,
-                         repeat<nb_4k, dense_layer, stem<INPUT>>>>>>>>>>;
+                         repeat<n4, dense_layer, transition<k * (2 + n1 + 2 * n2 + 4 * n3) / 8,
+                         repeat<n3, dense_layer, transition<k * (2 + n1 + 2 * n2) / 4,
+                         repeat<n2, dense_layer, transition<k * (2 + n1) / 2,
+                         repeat<n1, dense_layer, stem<INPUT>>>>>>>>>>;
     };
 
     template <typename SUBNET>
