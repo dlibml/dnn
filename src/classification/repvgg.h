@@ -19,9 +19,13 @@ namespace repvgg
         template <long num_filters, long ks, int s, typename SUBNET>
         using bcon = bn_con<pcon<num_filters, ks, s, SUBNET>>;
 
-        // train block
+        // training block with 3x3 and 1x1 convolutions
         template <long num_filters, typename SUBNET>
-        using tblock = ACT<add_prev2<bcon<num_filters, 1, 1, skip1<tag2<add_prev1<bcon<num_filters, 3, 1, tag1<SUBNET>>>>>>>>;
+        using tblock = add_prev2<bcon<num_filters, 1, 1, skip1<tag2<add_prev1<bcon<num_filters, 3, 1, tag1<SUBNET>>>>>>>;
+
+        // training block with 3x3 and 1x1 convolutions and identity (with batch norm)
+        template <long num_filters, typename SUBNET>
+        using tblock_id = ACT<add_prev2<bn_con<skip1<tblock<num_filters, tag1<SUBNET>>>>>>;
 
         // transition block for training
         template <long num_filters, typename SUBNET>
@@ -39,9 +43,9 @@ namespace repvgg
         template <typename SUBNET>
         using istem = pcon<filters_0, 3, 2, SUBNET>;
 
-        template <typename SUBNET> using tblock_1 = tblock<filters_1, SUBNET>;
-        template <typename SUBNET> using tblock_2 = tblock<filters_2, SUBNET>;
-        template <typename SUBNET> using tblock_3 = tblock<filters_3, SUBNET>;
+        template <typename SUBNET> using tblock_1 = tblock_id<filters_1, SUBNET>;
+        template <typename SUBNET> using tblock_2 = tblock_id<filters_2, SUBNET>;
+        template <typename SUBNET> using tblock_3 = tblock_id<filters_3, SUBNET>;
 
         template <typename SUBNET> using iblock_1 = pcon<filters_1, 3, 1, SUBNET>;
         template <typename SUBNET> using iblock_2 = pcon<filters_2, 3, 1, SUBNET>;
@@ -52,8 +56,8 @@ namespace repvgg
         using tbackbone = trans<filters_4,
                           repeat<nb_3 - 1, tblock_3, trans<filters_3,
                           repeat<nb_2 - 1, tblock_2, trans<filters_2,
-                          repeat<nb_1 - 1, tblock_1, trans<filters_1,
-                          tstem<INPUT>>>>>>>>;
+                          repeat<nb_1 - 2, tblock_1, trans<filters_1,
+                          ACT<tblock<filters_1, tstem<INPUT>>>>>>>>>>;
 
         template <size_t nb_3, size_t nb_2, size_t nb_1, typename INPUT>
         using ibackbone = pcon<filters_4, 3, 2,
