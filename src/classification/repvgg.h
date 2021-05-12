@@ -8,8 +8,8 @@ namespace repvgg
     // clang-format off
     using namespace dlib;
     // ACT can be any activation layer.
-    // a_n, a_d: a parameter numerator and denominator, respectively.
-    // b_n, b_d: b parameter numerator and denominator, respectively.
+    // a_n, a_d: a multiplier numerator and denominator, respectively.
+    // b_n, b_d: b multiplier numerator and denominator, respectively.
     template <template <typename> class ACT, long a_n, long a_d, long b_n, long b_d>
     struct def
     {
