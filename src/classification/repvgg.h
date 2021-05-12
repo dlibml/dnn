@@ -7,9 +7,9 @@ namespace repvgg
 {
     // clang-format off
     using namespace dlib;
-    // ACT can be any activation layer, BN must be bn_con or affine
-    // a_n, a_d: a parameter numerator and denominator, respectively
-    // b_n, b_d: b parameter numerator and denominator, respectively
+    // ACT can be any activation layer.
+    // a_n, a_d: a parameter numerator and denominator, respectively.
+    // b_n, b_d: b parameter numerator and denominator, respectively.
     template <template <typename> class ACT, long a_n, long a_d, long b_n, long b_d>
     struct def
     {
@@ -31,7 +31,7 @@ namespace repvgg
         template <long num_filters, int s, typename SUBNET>
         using repvggblock = add_prev1<bcon<num_filters, 1, s, skip2<tag1<bcon<num_filters, 3, s, tag2<SUBNET>>>>>>;
 
-        // RepVGG block + identity (with batch norm): tag5 is the input of the RepVGG block defined above
+        // RepVGG block + identity (with batch norm): tag2 is the input of the RepVGG block defined above
         template <long num_filters, typename SUBNET>
         using repvggblock_id = add_prev1<bn_con<skip2<repvggblock<num_filters, 1, tag1<SUBNET>>>>>;
 
