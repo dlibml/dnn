@@ -33,7 +33,7 @@ namespace repvgg
 
         // RepVGG block + identity (with batch norm): tag2 is the input of the RepVGG block defined above
         template <long num_filters, typename SUBNET>
-        using repvggblock_id = add_prev1<bn_con<skip2<repvggblock<num_filters, 1, tag1<SUBNET>>>>>;
+        using repvggblock_id = add_prev1<bn_con<skip2<tag1<repvggblock<num_filters, 1, SUBNET>>>>>;
 
         template <typename SUBNET> using repvggblock_id_1 = ACT<repvggblock_id<filters_1, SUBNET>>;
         template <typename SUBNET> using repvggblock_id_2 = ACT<repvggblock_id<filters_2, SUBNET>>;
