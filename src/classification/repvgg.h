@@ -29,11 +29,11 @@ namespace repvgg
 
         // RepVGG block: 3x3 & 1x1 convolutions
         template <long num_filters, int s, typename SUBNET>
-        using repvggblock = add_prev1<bcon<num_filters, 1, s, skip2<tag1<bcon<num_filters, 3, s, tag2<SUBNET>>>>>>;
+        using repvggblock = add_prev2<bcon<num_filters, 1, s, skip1<tag2<bcon<num_filters, 3, s, tag1<SUBNET>>>>>>;
 
-        // RepVGG block + identity (with batch norm): tag2 is the input of the RepVGG block defined above
+        // RepVGG block + identity (with batch norm): tag1 is the input of the RepVGG block defined above
         template <long num_filters, typename SUBNET>
-        using repvggblock_id = add_prev1<bn_con<skip2<tag1<repvggblock<num_filters, 1, SUBNET>>>>>;
+        using repvggblock_id = add_prev3<bn_con<skip1<tag3<repvggblock<num_filters, 1, SUBNET>>>>>;
 
         template <typename SUBNET> using repvggblock_id_1 = ACT<repvggblock_id<filters_1, SUBNET>>;
         template <typename SUBNET> using repvggblock_id_2 = ACT<repvggblock_id<filters_2, SUBNET>>;
