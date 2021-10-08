@@ -19,7 +19,7 @@
 #define DNN_BENCH_DENSENET 1
 #define DNN_BENCH_VOVNET 1
 #define DNN_BENCH_SQUEEZENET 1
-# define DNN_BENCH_REPVGG 1
+#define DNN_BENCH_REPVGG 1
 
 int main(const int argc, const char** argv)
 try
