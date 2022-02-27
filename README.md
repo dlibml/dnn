@@ -86,3 +86,9 @@ I will investigate how to do that soon.
 
 Papers:
 - [RepVGG: Making VGG-style ConvNets Great Again](https://arxiv.org/abs/2101.03697)
+
+## [Detection](./src/detection)
+
+### [YOLOv5(./src/detection/yolov5.h)
+
+In particular, it contains implementations for YOLOv5{n,s,m,l,x}, which match the ones in [ultralytics/yolov5](https://github.com/ultralytics/yolov5).
