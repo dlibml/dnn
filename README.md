@@ -14,6 +14,8 @@ This repository contains the definitions for the following architectures, organi
   - [DarkNet](#darknet)
   - [VoVNet](#vovnet)
   - [RepVGG](#repvgg)
+- [Detection](#detection)
+  - [YOLOv5](#yolov5)
 
 ## [Classification](./src/classification)
 
@@ -89,6 +91,6 @@ Papers:
 
 ## [Detection](./src/detection)
 
-### [YOLOv5(./src/detection/yolov5.h)
+### [YOLOv5](./src/detection/yolov5.h)
 
 In particular, it contains implementations for YOLOv5{n,s,m,l,x}, which match the ones in [ultralytics/yolov5](https://github.com/ultralytics/yolov5).
