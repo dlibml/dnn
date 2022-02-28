@@ -34,13 +34,13 @@ namespace yolov5
         template <long NF, typename SUBNET>
         using resbottleneck = add_prev10<bottleneck<NF, tag10<SUBNET>>>;
 
-        template <long nf, typename SUBNET>
-        using sppf = conv<nf, 1, 1,
+        template <long NF, typename SUBNET>
+        using sppf = conv<NF, 1, 1,
                      concat4<tag1, tag2, tag3, tag4,
                 tag4<max_pool<5, 5, 1, 1,
                 tag3<max_pool<5, 5, 1, 1,
                 tag2<max_pool<5, 5, 1, 1,
-                tag1<conv<nf/2, 1, 1, SUBNET>>>>>>>>>>;
+                tag1<conv<NF/2, 1, 1, SUBNET>>>>>>>>>>;
 
         template <typename SUBNET> using bottleneck_x2 = bottleneck<2 * nf, SUBNET>;
         template <typename SUBNET> using bottleneck_x4 = bottleneck<4 * nf, SUBNET>;
