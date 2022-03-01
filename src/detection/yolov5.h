@@ -23,7 +23,7 @@ namespace yolov5
     >
     struct def
     {
-        const static long nf = 64 * width_num / width_den;
+        static constexpr long nf = 64 * width_num / width_den;
 
         template <long NF, int KS, int S, typename SUBNET>
         using conv = ACT<BN<add_layer<con_<NF, KS, KS, S, S, (KS-1)/2, (KS-1)/2>, SUBNET>>>;
