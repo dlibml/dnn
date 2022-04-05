@@ -43,8 +43,8 @@ namespace densenet
     using infer_169 = classification_head<def<relu, affine, 32>::backbone<32, 32, 12, 6, input_rgb_image>>;
     using train_201 = classification_head<def<relu, bn_con, 32>::backbone<32, 48, 12, 6, input_rgb_image>>;
     using infer_201 = classification_head<def<relu, affine, 32>::backbone<32, 48, 12, 6, input_rgb_image>>;
-    using train_264 = classification_head<def<relu, bn_con, 32>::backbone<48, 64, 12, 6, input_rgb_image>>;
-    using infer_264 = classification_head<def<relu, affine, 32>::backbone<48, 64, 12, 6, input_rgb_image>>;
+    using train_265 = classification_head<def<relu, bn_con, 32>::backbone<48, 64, 12, 6, input_rgb_image>>;
+    using infer_265 = classification_head<def<relu, affine, 32>::backbone<48, 64, 12, 6, input_rgb_image>>;
     using train_161 = classification_head<def<relu, bn_con, 48>::backbone<24, 36, 12, 6, input_rgb_image>>;
     using infer_161 = classification_head<def<relu, affine, 48>::backbone<24, 36, 12, 6, input_rgb_image>>;
 
