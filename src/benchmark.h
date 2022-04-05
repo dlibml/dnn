@@ -53,6 +53,8 @@ template <typename net_type> auto benchmark(
     {
         const auto t0 = std::chrono::steady_clock::now();
         net.forward(x);
+        const auto& t = net.subnet().get_output();
+        t.host();
         const auto t1 = std::chrono::steady_clock::now();
         rs.add(std::chrono::duration_cast<fms>(t1 - t0).count());
     }
@@ -64,6 +66,7 @@ template <typename net_type> auto benchmark(
     std::cout << " (memory usage: " << sout.str().size() / 1024.0 / 1024.0 << " MiB)";
     size_t num_convolutions = 0;
     dlib::visit_layers(net, visitor_count_convolutions(num_convolutions));
-    std::cout << " #num convolutions: " << num_convolutions << '\n';
+    std::cout << " #num convolutions: " << num_convolutions << ' ';
+    std::cout << " #num layers: " << net_type::num_computational_layers << '\n';
     std::cin.get();
 }

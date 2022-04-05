@@ -11,15 +11,15 @@
 
 #include <dlib/cmd_line_parser.h>
 
-#define DNN_BENCH_ALEXNET 1
-#define DNN_BENCH_VGGNET 1
-#define DNN_BENCH_GOOGLENET 1
+#define DNN_BENCH_ALEXNET 0
+#define DNN_BENCH_VGGNET 0
+#define DNN_BENCH_GOOGLENET 0
 #define DNN_BENCH_RESNET 1
-#define DNN_BENCH_DARKNET 1
-#define DNN_BENCH_DENSENET 1
+#define DNN_BENCH_DARKNET 0
+#define DNN_BENCH_DENSENET 0
 #define DNN_BENCH_VOVNET 1
-#define DNN_BENCH_SQUEEZENET 1
-#define DNN_BENCH_REPVGG 1
+#define DNN_BENCH_SQUEEZENET 0
+#define DNN_BENCH_REPVGG 0
 
 int main(const int argc, const char** argv)
 try
@@ -30,7 +30,7 @@ try
     parser.add_option("image-size", "set the image size (default: 224)", 1);
     parser.add_option("num-outputs", "set the number of fc outputs (default: 1000)", 1);
     parser.add_option("num-iters", "set the number of iterations (default: 100)", 1);
-    parser.add_option("no-cuda-blocking", "disable cuda synchronization");
+    parser.add_option("cuda-blocking", "disable cuda synchronization");
     parser.set_group_name("Help Options");
     parser.add_option("h", "alias for --help");
     parser.add_option("help", "display this message and exit");
@@ -42,7 +42,7 @@ try
         return EXIT_SUCCESS;
     }
 
-    const std::string cuda_blocking = parser.option("no-cuda-blocking") ? "0" : "1";
+    const std::string cuda_blocking = parser.option("cuda-blocking") ? "1" : "0";
     const size_t batch_size = dlib::get_option(parser, "batch-size", 1);
     const size_t image_size = dlib::get_option(parser, "image-size", 224);
     const size_t num_outputs = dlib::get_option(parser, "num-outputs", 1000);
