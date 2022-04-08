@@ -11,15 +11,15 @@
 
 #include <dlib/cmd_line_parser.h>
 
-#define DNN_BENCH_ALEXNET 0
-#define DNN_BENCH_VGGNET 0
-#define DNN_BENCH_GOOGLENET 0
+#define DNN_BENCH_ALEXNET 1
+#define DNN_BENCH_VGGNET 1
+#define DNN_BENCH_GOOGLENET 1
 #define DNN_BENCH_RESNET 1
-#define DNN_BENCH_DARKNET 0
-#define DNN_BENCH_DENSENET 0
+#define DNN_BENCH_DARKNET 1
+#define DNN_BENCH_DENSENET 1
 #define DNN_BENCH_VOVNET 1
-#define DNN_BENCH_SQUEEZENET 0
-#define DNN_BENCH_REPVGG 0
+#define DNN_BENCH_SQUEEZENET 1
+#define DNN_BENCH_REPVGG 1
 
 int main(const int argc, const char** argv)
 try
@@ -203,11 +203,11 @@ try
         benchmark("densenet201", net, batch_size, image_size, num_iters);
     }
     {
-        densenet::train_264 tnet;
+        densenet::train_265 tnet;
         dlib::visit_layers(tnet, visitor_con_disable_bias());
-        densenet::infer_264 net(tnet);
+        densenet::infer_265 net(tnet);
         net.subnet().layer_details().set_num_outputs(num_outputs);
-        benchmark("densenet264", net, batch_size, image_size, num_iters);
+        benchmark("densenet265", net, batch_size, image_size, num_iters);
     }
     {
         densenet::train_161 tnet;
