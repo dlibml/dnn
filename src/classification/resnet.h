@@ -7,14 +7,14 @@ namespace resnet
 {
     // clang-format off
     using namespace dlib;
-    template <template <typename> class BN = bn_con, template <typename> class ACT = relu>
+    template <template <typename> class BN = bn_con, template <typename> class ACT = relu, long k = 64>
     struct def
     {
         template <long N, int K, int S, typename SUBNET>
         using conv = add_layer<con_<N, K, K, S, S, K / 2, K / 2>, SUBNET>;
 
         template <typename INPUT>
-        using stem = add_layer<max_pool_<3, 3, 2, 2, 1, 1>, ACT<BN<conv<64, 7, 2, INPUT>>>>;
+        using stem = add_layer<max_pool_<3, 3, 2, 2, 1, 1>, ACT<BN<conv<k, 7, 2, INPUT>>>>;
 
         template <long N, int S, typename SUBNET>
         using basicblock = BN<conv<N, 3, 1, ACT<BN<conv<N, 3, S, SUBNET>>>>>;
@@ -28,27 +28,27 @@ namespace resnet
         template <template <long, int, typename> class BLOCK, long N, long F, long S, typename SUBNET>
         using transition = ACT<add_prev2<BN<conv<N * F, 1, S, skip1<tag2<BLOCK<N, S, tag1<SUBNET>>>>>>>>;
 
-        template <typename SUBNET> using resbasicblock_512 = residual<basicblock, 512, SUBNET>;
-        template <typename SUBNET> using resbasicblock_256 = residual<basicblock, 256, SUBNET>;
-        template <typename SUBNET> using resbasicblock_128 = residual<basicblock, 128, SUBNET>;
-        template <typename SUBNET> using resbasicblock_64  = residual<basicblock, 64, SUBNET>;
-        template <typename SUBNET> using resbottleneck_512 = residual<bottleneck, 512, SUBNET>;
-        template <typename SUBNET> using resbottleneck_256 = residual<bottleneck, 256, SUBNET>;
-        template <typename SUBNET> using resbottleneck_128 = residual<bottleneck, 128, SUBNET>;
-        template <typename SUBNET> using resbottleneck_64  = residual<bottleneck, 64, SUBNET>;
+        template <typename SUBNET> using resbasicblock_8k = residual<basicblock, 8 * k, SUBNET>;
+        template <typename SUBNET> using resbasicblock_4k = residual<basicblock, 4 * k, SUBNET>;
+        template <typename SUBNET> using resbasicblock_2k = residual<basicblock, 2 * k, SUBNET>;
+        template <typename SUBNET> using resbasicblock_1k = residual<basicblock, 1 * k, SUBNET>;
+        template <typename SUBNET> using resbottleneck_8k = residual<bottleneck, 8 * k, SUBNET>;
+        template <typename SUBNET> using resbottleneck_4k = residual<bottleneck, 4 * k, SUBNET>;
+        template <typename SUBNET> using resbottleneck_2k = residual<bottleneck, 2 * k, SUBNET>;
+        template <typename SUBNET> using resbottleneck_1k = residual<bottleneck, 1 * k, SUBNET>;
 
-        template <long N512, long N256, long N128, long N64, typename INPUT>
-        using backbone_basicblock = repeat<N512, resbasicblock_512, transition<basicblock, 512, 1, 2,
-                                    repeat<N256, resbasicblock_256, transition<basicblock, 256, 1, 2,
-                                    repeat<N128, resbasicblock_128, transition<basicblock, 128, 1, 2,
-                                    repeat<N64, resbasicblock_64, transition<basicblock, 64, 1, 1,
+        template <long N8k, long N4k, long N2k, long N1k, typename INPUT>
+        using backbone_basicblock = repeat<N8k, resbasicblock_8k, transition<basicblock, 8 * k, 1, 2,
+                                    repeat<N4k, resbasicblock_4k, transition<basicblock, 4 * k, 1, 2,
+                                    repeat<N2k, resbasicblock_2k, transition<basicblock, 2 * k, 1, 2,
+                                    repeat<N1k, resbasicblock_1k, transition<basicblock, 1 * k, 1, 1,
                                     stem<INPUT>>>>>>>>>;
 
-        template <long N512, long N256, long N128, long N64, typename INPUT>
-        using backbone_bottleneck = repeat<N512, resbottleneck_512, transition<bottleneck, 512, 4, 2,
-                                    repeat<N256, resbottleneck_256, transition<bottleneck, 256, 4, 2,
-                                    repeat<N128, resbottleneck_128, transition<bottleneck, 128, 4, 2,
-                                    repeat<N64, resbottleneck_64, transition<bottleneck, 64, 4, 1,
+        template <long N8k, long N4k, long N2k, long N1k, typename INPUT>
+        using backbone_bottleneck = repeat<N8k, resbottleneck_8k, transition<bottleneck, 8 * k, 4, 2,
+                                    repeat<N4k, resbottleneck_4k, transition<bottleneck, 4 * k, 4, 2,
+                                    repeat<N2k, resbottleneck_2k, transition<bottleneck, 2 * k, 4, 2,
+                                    repeat<N1k, resbottleneck_1k, transition<bottleneck, 1 * k, 4, 1,
                                     stem<INPUT>>>>>>>>>;
 
         // the backbones for the classic architectures
