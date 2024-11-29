@@ -94,3 +94,11 @@ Papers:
 ### [YOLOv5](./src/detection/yolov5.h)
 
 In particular, it contains implementations for YOLOv5{n,s,m,l,x}, which match the ones in [ultralytics/yolov5](https://github.com/ultralytics/yolov5).
+
+## [Language](./src/lm)
+
+### [Transformer](./src/lm/transformer.h)
+Contains the basic implementation of the Transformer architecture for next token prediction tasks. The self-attention mechanism can also be effectively reused for computer vision tasks, as demonstrated in Vision Transformer (ViT) and similar models.
+
+Papers:
+- [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
