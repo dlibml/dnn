@@ -152,13 +152,13 @@ namespace transformer
      * Provides a flexible and type-safe configuration mechanism for Transformer models
      * with compile-time parameter validation and network generation.
      *
-     * @tparam vocab_size Vocabulary size for token embedding
-     * @tparam num_layers Number of Transformer layers
-     * @tparam num_heads Number of attention heads
-     * @tparam embedding_dim Dimension of token embeddings
-     * @tparam max_seq_len Maximum sequence length
-     * @tparam activation_func Activation function type
-     * @tparam dropout_policy Dropout regularization policy
+     * @param vocab_size Vocabulary size for token embedding
+     * @param num_layers Number of Transformer layers
+     * @param num_heads Number of attention heads
+     * @param embedding_dim Dimension of token embeddings
+     * @param max_seq_len Maximum sequence length
+     * @param activation_func Activation function type
+     * @param dropout_policy Dropout regularization policy
      */
     template <
         long vocab_size = 2000,                                 // Default vocabulary size
