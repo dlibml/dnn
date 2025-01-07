@@ -1,8 +1,8 @@
-#ifndef LlmNet_H
-#define LlmNet_H
+#ifndef SlmNet_H
+#define SlmNet_H
 
 /**
- * @file transformer.h
+ * @file slm_defs.h
  * @brief Optimized Transformer neural architecture for language processing
  *
  * Implements a Transformer architecture with multi-head attention and RMS
@@ -46,13 +46,13 @@ namespace transformer
          * Multi-Head Attention Layer
          *
          * Structure:
-         * 1. Input Processing
+         * 1. Input processing
          *    - RMS normalization
          *    - Single linear projection (d_model -> 3*d_model) for Q,K,V
-         * 2. Parallel Head Processing (num_heads)
+         * 2. Parallel head processing (num_heads)
          *    - Split into Q, K, V tensors
          *    - Key transposition for attention computation
-         * 3. Attention Mechanism
+         * 3. Attention mechanism
          *    - Scaled dot-product (Q*K^T / sqrt(d_k))
          *    - Causal masking (tril_mask)
          *    - Softmax normalization
@@ -61,16 +61,16 @@ namespace transformer
          *    - Head concatenation
          *    - Residual connection
          *
-         * Template Parameters:
+         * Template parameters:
          * @param ACT: Activation function type
          * @param DO: Dropout layer type
          * @param d_model: Model dimension
          * @param num_heads: Number of attention heads
          * @param SUBNET: Input subnet type
          */
-        template <template <typename> class ACT, template <typename> class DO, long d_model, long num_heads, typename SUBNET>
-        using multihead_attention = add_prev1<
-            DO<extract<0, 1, 1, d_model, multm_prev3<
+        template <template <typename> class ACT, template <typename> class DO,
+            long d_model, long num_heads, typename SUBNET>
+        using multihead_attention = add_prev1<DO<extract<0, 1, 1, d_model, multm_prev3<
             DO<softmaxm<tril_mask<
             scale_weights<d_model / num_heads,
             multm_prev4<query<num_heads, d_model, skip2<
@@ -83,7 +83,7 @@ namespace transformer
          * Feed-Forward Network Layer
          *
          * Structure:
-         * 1. Input Processing
+         * 1. Input processing
          *    - RMS normalization
          *    - Input tagged for residual connection
          * 2. Transformation
@@ -94,7 +94,7 @@ namespace transformer
          *    - Dropout
          *    - Residual connection
          *
-         * Template Parameters:
+         * Template parameters:
          * @param ACT: Activation function type
          * @param DO: Dropout layer type
          * @param d_model: Model dimension
@@ -114,14 +114,14 @@ namespace transformer
          * 1. Multi-head attention layer
          * 2. Feed-forward network
          *
-         * Template Parameters:
+         * Template parameters:
          * @param ACT: Activation function type
          * @param DO: Dropout layer type
          * @param d_model: Model dimension
          * @param num_heads: Number of attention heads
          * @param SUBNET: Input subnet type
          */
-        template <template <typename> class ACT, template <typename> class DO, long d_model, long num_heads, typename SUBNET>
+        template <template <typename> class ACT, template <typename> class DO, long seq_len, long d_model, long num_heads, typename SUBNET>
         using transformer_block =
             feed_forward<ACT, DO, d_model,
             multihead_attention<ACT, DO, d_model, num_heads, SUBNET>>;
@@ -131,43 +131,50 @@ namespace transformer
     template <long num_embeddings, long embedding_length, typename SUBNET>
     using positional_embeddings = positional_encodings<embeddings<num_embeddings, embedding_length, SUBNET>>;
 
-    // Learned Positional Embeddings
-    template <long num_embeddings, long embedding_length, typename SUBNET>
-    using learned_positional_embeddings = add_prev9<linear<embedding_length, skip10<
-        tag9<embeddings<num_embeddings, embedding_length, tag10<SUBNET>>>>>>;
-
     // Classification Head   
     template <template <typename> class ACT, long embedding_length, typename SUBNET>
     using squeezing = fc<embedding_length / 4, ACT<fc<embedding_length / 8, SUBNET>>>;
-    
-    template <template <typename> class ACT, long num_logits, long embedding_length, typename SUBNET>
-    using classification_head = loss_multiclass_log<fc<num_logits, squeezing<ACT, embedding_length, rms_norm<SUBNET>>>>;
 
-    template <typename SUBNET>
-    using dropout_10 = dropout_rate<10, SUBNET>;
+    template <bool USE_SQUEEZING, template <typename> class ACT, long num_logits, long embedding_length, typename SUBNET>
+    struct classification_head_impl;
+    template <template <typename> class ACT, long num_logits, long embedding_length, typename SUBNET>
+    struct classification_head_impl<true, ACT, num_logits, embedding_length, SUBNET>
+    {
+        using type = loss_multiclass_log<fc<num_logits, squeezing<ACT, embedding_length, rms_norm<SUBNET>>>>;
+    };
+    template <template <typename> class ACT, long num_logits, long embedding_length, typename SUBNET>
+    struct classification_head_impl<false, ACT, num_logits, embedding_length, SUBNET>
+    {
+        using type = loss_multiclass_log<fc<num_logits, rms_norm<SUBNET>>>;
+    };
+    template <bool USE_SQUEEZING, template <typename> class ACT, long num_logits, long embedding_length, typename SUBNET>
+    using classification_head = typename classification_head_impl<USE_SQUEEZING, ACT, num_logits, embedding_length, SUBNET>::type;
 
     /**
-     * @brief Transformer model configuration template
+     * @brief Transformer Model Configuration Template
      *
      * Provides a flexible and type-safe configuration mechanism for Transformer models
      * with compile-time parameter validation and network generation.
      *
+     * Template parameters:
      * @param vocab_size Vocabulary size for token embedding
      * @param num_layers Number of Transformer layers
      * @param num_heads Number of attention heads
      * @param embedding_dim Dimension of token embeddings
      * @param max_seq_len Maximum sequence length
+     * @param use_squeezing Use squeezing layer
      * @param activation_func Activation function type
      * @param dropout_policy Dropout regularization policy
      */
     template <
-        long vocab_size = 2000,                                 // Default vocabulary size
-        long num_layers = 3,                                    // Default number of layers
-        long num_heads = 4,                                     // Default number of attention heads
+        long vocab_size = 5000,                                 // Default vocabulary size
+        long num_layers = 6,                                    // Default number of layers
+        long num_heads = 8,                                     // Default number of attention heads
         long embedding_dim = 128,                               // Default embedding dimension
-        long max_seq_len = 80,                                  // Default maximum sequence length
-        template <typename> class activation_func = gelu,      // Default activation function
-        template <typename> class dropout_policy = dropout_10  // Default dropout policy
+        long max_seq_len = 100,                                 // Default maximum sequence length
+        bool use_squeezing = false,                             // Default use squeezing layer
+        template <typename> class activation_func = gelu,       // Default activation function
+        template <typename> class dropout_policy = dropout_10   // Default dropout policy
     >
     struct transformer_config {
         // Core model parameters
@@ -176,6 +183,7 @@ namespace transformer
         static constexpr long NUM_HEADS = num_heads;
         static constexpr long EMBEDDING_DIM = embedding_dim;
         static constexpr long MAX_SEQ_LEN = max_seq_len;
+        static constexpr bool USE_SQUEEZING = use_squeezing;
 
         /**
          * @brief Compile-time validation of model configuration
@@ -186,7 +194,7 @@ namespace transformer
             static_assert(VOCAB_SIZE > 0, "Vocabulary size must be positive");
             static_assert(NUM_LAYERS > 0, "Number of layers must be positive");
             static_assert(NUM_HEADS > 0, "Number of attention heads must be positive");
-            static_assert(EMBEDDING_DIM % NUM_HEADS == 0, "Embedding dimension must be divisible by number of heads");
+            static_assert(EMBEDDING_DIM% NUM_HEADS == 0, "Embedding dimension must be divisible by number of heads");
         };
 
         /**
@@ -195,22 +203,23 @@ namespace transformer
          * Generates different network types for training and inference
          * using the configured parameters
          *
+         * Template parameters:
          * @tparam is_training Determines training or inference network type
          */
         template <typename SUBNET>
-        using t_transformer_block = def::transformer_block<activation_func, dropout_policy, EMBEDDING_DIM, NUM_HEADS, SUBNET>;
+        using t_transformer_block = def::transformer_block<activation_func, dropout_policy, MAX_SEQ_LEN, EMBEDDING_DIM, NUM_HEADS, SUBNET>;
         template <typename SUBNET>
-        using i_transformer_block = def::transformer_block<activation_func, multiply, EMBEDDING_DIM, NUM_HEADS, SUBNET>;
+        using i_transformer_block = def::transformer_block<activation_func, multiply, MAX_SEQ_LEN, EMBEDDING_DIM, NUM_HEADS, SUBNET>;
 
         template<bool is_training>
         using network_type = std::conditional_t<is_training,
-            classification_head<activation_func, VOCAB_SIZE, EMBEDDING_DIM,
+            classification_head<USE_SQUEEZING, activation_func, VOCAB_SIZE, EMBEDDING_DIM,
             repeat<NUM_LAYERS, t_transformer_block,
             positional_embeddings<VOCAB_SIZE, EMBEDDING_DIM, input<matrix<int, 0, 1>>>>>,
-            classification_head<activation_func, VOCAB_SIZE, EMBEDDING_DIM,
+            classification_head<USE_SQUEEZING, activation_func, VOCAB_SIZE, EMBEDDING_DIM,
             repeat<NUM_LAYERS, i_transformer_block,
             positional_embeddings<VOCAB_SIZE, EMBEDDING_DIM, input<matrix<int, 0, 1>>>>>
-        >;
+            >;
 
         /**
          * @brief Model configuration information and debugging utility
@@ -225,7 +234,7 @@ namespace transformer
              */
             static std::string describe() {
                 std::stringstream ss;
-                ss << "transformer model configuration:\n"
+                ss << "Transformer model configuration:\n"
                     << "- vocabulary size: " << VOCAB_SIZE << "\n"
                     << "- layers: " << NUM_LAYERS << "\n"
                     << "- attention heads: " << NUM_HEADS << "\n"
@@ -243,12 +252,13 @@ namespace transformer
      *
      * // Creating different transformer configurations
      * using default_transformer = transformer_config<>;
-     * using large_transformer = transformer_config<
-     *     5000,   // Larger vocabulary
+     * using large_transformer_with_squeezing = transformer_config<
+     *     50000,  // Larger vocabulary
      *     8,      // More layers
      *     8,      // More heads
      *     512,    // Larger embedding dimension
-     *     128     // Longer sequences
+     *     128,    // Longer sequences
+     *     true    // Use squeezing
      * >;
      *
      * // Network type instantiations for different modes
@@ -273,4 +283,4 @@ namespace transformer
      */
 }
 
-#endif // LlmNet_H
+#endif // SlmNet_H
